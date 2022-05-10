@@ -7,11 +7,13 @@ import java.util.Scanner;
 
 public class App {
     private static Scanner scanner;
-    private static HashMap<String, Vehicle> vehicles;
+    private static HashMap<Integer, Vehicle> vehicles;
 
     private static final int MAX_CAR_LIMIT = 20, MAX_BIKE_LIMIT = 40;
 
     private static int carCount = 0, bikeCount = 0;
+    private static Object ticketId;
+    private static Object Car;
 
     private static double calculateTotalTime(String entryTime, String exitTime) throws ParseException {
         DateFormat timeFormat = new SimpleDateFormat("hh:mm-aa");// converts string to date
@@ -37,7 +39,7 @@ public class App {
         System.out.print("Enter your choice: ");
     }
 
-    public static void parkVehicle() {
+    public static void parkVehicle(Integer ticketId) {
         System.out.println("1. Park Car.");
         System.out.println("2. Park Bike.");
         System.out.print("Enter Vehicle Type: ");
@@ -51,10 +53,10 @@ public class App {
 
                     System.out.print("Enter Entry Time (hh:mm-aa): ");
                     String entryTime = scanner.next();
-
-                    Car car = new Car(registrationNumber);
-                    car.setEntryTime(entryTime);
-                    vehicles.put(registrationNumber, car);
+                    Ticket.setRegistrationNumber(registrationNumber);
+                    Car car = new Car();
+                    Ticket.setEntryTime(entryTime);
+                    vehicles.put(ticketId, car);
 
                     System.out.println("Car Successfully Parked!");
                 } else {
@@ -66,13 +68,13 @@ public class App {
                 if (++bikeCount <= MAX_BIKE_LIMIT) {
                     System.out.print("Enter The Registration Number: ");
                     String registrationNumber = scanner.next();
-
+                    Ticket.setRegistrationNumber(registrationNumber);
                     System.out.print("Enter Entry Time (hh:mm-aa): ");
                     String entryTime = scanner.next();
 
-                    Bike bike = new Bike(registrationNumber);
-                    bike.setEntryTime(entryTime);
-                    vehicles.put(registrationNumber, bike);
+                    Bike bike = new Bike();
+                    Ticket.setEntryTime(entryTime);
+                    vehicles.put(ticketId, bike);
 
                     System.out.println("Bike Successfully Parked!");
                 } else {
@@ -85,23 +87,23 @@ public class App {
 
     public static void unparkVehicle() {
         System.out.print("Enter the Registration Number: ");
-        String registerNumber = scanner.next();
+        String registrationNumber = scanner.next();
 
-        if (vehicles.containsKey(registerNumber)) {
+        if (vehicles.containsKey(ticketId)) {
             System.out.print("Enter Exit Time (hh:mm-aa): ");
             String exitTime = scanner.next();
+            Ticket.setRegistrationNumber(registrationNumber);
+            Vehicle vehicle = (Vehicle) vehicles.remove(ticketId);
+            Ticket.setExitTime(exitTime);
 
-            Vehicle vehicle = (Vehicle) vehicles.remove(registerNumber);
-            vehicle.setExitTime(exitTime);
-
-            if (vehicle.getType().equals("Car"))
+            if (vehicle.getType().equals(Car))
                 carCount--;
             else
                 bikeCount--;
 
             double totalTime;
             try {
-                totalTime = calculateTotalTime(vehicle.getEntryTime(), vehicle.getExitTime());
+                totalTime = calculateTotalTime(Ticket.getEntryTime(), Ticket.getExitTime());
                 String output = String.format("Time Parked: %.2f minutes and You have to pay: Rs. %.2f", totalTime,
                         totalTime * 2);
                 System.out.println(output);
@@ -116,7 +118,7 @@ public class App {
     }
 
     public static void main(String[] args) throws Exception {
-        vehicles = new HashMap<String, Vehicle>();
+        vehicles = new HashMap<Integer, Vehicle>();
         scanner = new Scanner(System.in);
         int choice;
 
@@ -127,7 +129,7 @@ public class App {
                 System.out.println();
                 switch (choice) {
                     case 1:
-                        parkVehicle();
+                        parkVehicle(null);
                         break;
                     case 2:
                         unparkVehicle();

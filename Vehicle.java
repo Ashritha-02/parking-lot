@@ -1,19 +1,17 @@
-public abstract class Vehicle {
-    protected String type;
-    protected String registrationNumber;
-    protected String entryTime, exitTime;
+public class Vehicle {
+    String type;
+    String registrationNumber;
+    String entryTime, exitTime;
 
-    public abstract String getType();
+    public String getType() {
+        return type;
+    }
 
-    public abstract String getExitTime();
+    public String getRegistrationNumber() {
+        return registrationNumber;
+    }
 
-    public abstract void setExitTime(String exitTime);
+    public void setRegistrationNumber(String registrationNumber) {
 
-    public abstract String getEntryTime();
-
-    public abstract void setEntryTime(String entryTime);
-
-    public abstract String getRegistrationNumber();
-
-    public abstract void setRegistrationNumber(String registrationNumber);
+    }
 }
