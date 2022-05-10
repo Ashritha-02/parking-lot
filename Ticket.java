@@ -31,7 +31,6 @@ public class Ticket {
         Ticket.ticketId = ticketId;
     }
 
-    public static void setRegistrationNumber(String registrationNumber) {
-    }
+    
 
 }
