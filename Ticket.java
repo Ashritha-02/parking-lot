@@ -1,6 +1,11 @@
 public class Ticket {
     static String entryTime, exitTime;
-    static int ticketId;
+    static int ticketId = 0; 
+    public  Ticket(int ticketID )
+    {
+        this.ticketId=ticketID;
+    }
+
 
     public static String getEntryTime() {
         return entryTime;
@@ -22,7 +27,7 @@ public class Ticket {
         return ticketId;
     }
 
-    public static void setTicketId(int ticketId) {
+    public static  setTicketId(int ticketId) {
         Ticket.ticketId = ticketId;
     }
 

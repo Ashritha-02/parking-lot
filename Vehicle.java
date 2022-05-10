@@ -11,7 +11,5 @@ public class Vehicle {
         return registrationNumber;
     }
 
-    public void setRegistrationNumber(String registrationNumber) {
-
-    }
+   
 }
